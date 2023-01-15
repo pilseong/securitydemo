@@ -1,0 +1,7 @@
+###
+GET http://localhost:8080/api/public/test1
+Content-Type: application/json
+
+###
+GET http://localhost:8080/api/public/management/reports
+Content-Type: application/json
