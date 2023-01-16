@@ -11,3 +11,17 @@ spring:
   datasource:
     url:  jdbc:h2:mem:testdb
     username: sa
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  output:
+    ansi:
+      enabled: always
+
+
+#jwt properties added
+app:
+  jwt-secret: SECRET
+  jwt-expiration-milliseconds: 18000000

@@ -5,3 +5,33 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/public/management/reports
 Content-Type: application/json
+
+
+###
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "pilseong",
+  "password": "passwor"
+}
+
+###
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "noel@gmail.com",
+  "password": "noel"
+}
+
+### signup user
+POST http://localhost:8080/auth/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "noel",
+  "name": "noelheo",
+  "email": "noel@gmail.com",
+  "password": "noel"
+}
