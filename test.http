@@ -1,15 +1,24 @@
-###
-GET http://localhost:8080/api/public/test1
-Content-Type: application/json
+
+@hostname = ec2-3-34-197-155.ap-northeast-2.compute.amazonaws.com
+@hostname = localhost
+# @port = 4000 
+@port = 8090
+
+@host = {{hostname}}:{{port}}
+@contentType = application/json
 
 ###
-GET http://localhost:8080/api/public/management/reports
-Content-Type: application/json
+GET http://{{host}}/api/public/test1
+Content-Type: {{contentType}}
+
+###
+GET http://{{host}}/api/public/management/reports
+Content-Type: {{contentType}}
 
 
 ###
-POST http://localhost:8080/auth/signin
-Content-Type: application/json
+POST http://{{host}}/auth/signin
+Content-Type: {{contentType}}
 
 {
   "usernameOrEmail": "pilseong",
@@ -17,8 +26,8 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/auth/signin
-Content-Type: application/json
+POST http://{{host}}/auth/signin
+Content-Type: {{contentType}}
 
 {
   "usernameOrEmail": "noel@gmail.com",
@@ -26,8 +35,8 @@ Content-Type: application/json
 }
 
 ### signup user
-POST http://localhost:8080/auth/signup HTTP/1.1
-Content-Type: application/json
+POST http://{{host}}/auth/signup HTTP/1.1
+Content-Type: {{contentType}}
 
 {
   "username": "noel",

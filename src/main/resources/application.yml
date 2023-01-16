@@ -25,3 +25,6 @@ spring:
 app:
   jwt-secret: SECRET
   jwt-expiration-milliseconds: 18000000
+
+server:
+  port: 8090
