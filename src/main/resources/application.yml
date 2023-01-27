@@ -23,7 +23,7 @@ spring:
 
 #jwt properties added
 app:
-  jwt-secret: SECRET
+  jwt-secret: M/xxpY2m/8XFw7MdcdOHpp+ViFcTpAy1m7zgLVdx8X8=
   jwt-expiration-milliseconds: 18000000
 
 server:

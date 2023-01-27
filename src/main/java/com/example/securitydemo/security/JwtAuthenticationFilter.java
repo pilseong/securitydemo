@@ -1,31 +1,27 @@
 package com.example.securitydemo.security;
 
 import java.io.IOException;
-import java.nio.file.attribute.UserPrincipal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.example.securitydemo.dtos.LoginDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Component
+@NoArgsConstructor
+@Setter
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private AuthenticationManager authenticationManager;
   private JwtTokenProvider jwtTokenProvider;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
-
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
     this.authenticationManager = authenticationManager;
@@ -48,6 +44,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     //       return ResponseEntity.ok("User signed in successfully");
   }
 
+  public void setAuthenticationManager(AuthenticationManager manager) {
+    super.setAuthenticationManager(manager);
+    this.authenticationManager = manager;
+  }
+
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
       Authentication authResult) throws IOException, ServletException {
@@ -57,7 +58,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String token = jwtTokenProvider.generateToken(authResult);
 
     response.addHeader("Authorization", "Bearer " +  token);
-      
+   
+    super.successfulAuthentication(request, response, chain, authResult);
   }
   
 }

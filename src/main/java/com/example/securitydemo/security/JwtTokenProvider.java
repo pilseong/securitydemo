@@ -17,14 +17,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 public class JwtTokenProvider {
-  @Value("${app.jwt-secret")
+  @Value("${app.jwt-secret}")
   private String jwtSecret;
 
   @Value("${app.jwt-expiration-milliseconds}")
   private int jwtExpirationInMilliseconds;
 
-  // private final String baseKey = "thisisdummykeythisisdummykeythisisdummykeythisisdummykeythisisdummykey";
-  private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
+  // private final String baseKey = "M/xxpY2m/8XFw7MdcdOHpp+ViFcTpAy1m7zgLVdx8X8=";
+  private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
 
   // generate token
@@ -45,7 +45,8 @@ public class JwtTokenProvider {
 
   private Key createKey() {
     byte[] apiKeySecretBytes = Base64.getEncoder().encode(jwtSecret.getBytes());
-    // Key signingKey = Keys.hmacShaKeyFor(apiKeySecretBytes);
+    // Key signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // String secretString =  Encoders.BASE64.encode(signingKey.getEncoded());
     Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
     return signingKey;
   }

@@ -3,20 +3,15 @@ package com.example.securitydemo.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.util.unit.DataUnit;
 
-import com.example.securitydemo.security.CustomUserDetailsService;
 import com.example.securitydemo.security.JwtAuthenticationFilter;
-import com.example.securitydemo.security.JwtAuthorizationFilter;
 import com.example.securitydemo.security.JwtTokenProvider;
 
 @Configuration
@@ -37,7 +32,8 @@ public class WebSecuirtyConfiguration {
     .requestMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
     .requestMatchers("/*", "/h2-console/**", "/auth/**").permitAll(); // h2-console은 보안에 걸려 있다. h2-console/ 로 접근해야 한다.
 
-    http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider()));
+    // http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider()));
+    // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
  
     // http.httpBasic();
     http.formLogin();
@@ -58,6 +54,14 @@ public class WebSecuirtyConfiguration {
   //   return http.build();
   // }
 
+
+  @Bean
+  UsernamePasswordAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+    var jwtAuthenticationFilter = new JwtAuthenticationFilter();
+    jwtAuthenticationFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
+    jwtAuthenticationFilter.setJwtTokenProvider(jwtTokenProvider());
+    return jwtAuthenticationFilter;
+  }
 
   @Bean
   public JwtTokenProvider  jwtTokenProvider() {
